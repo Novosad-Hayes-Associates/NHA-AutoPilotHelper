@@ -1,6 +1,6 @@
 $curTime = get-date -Format "yyyyMMddHHss"
 $sentinal = 0
-if ( $env:COMPUTERNAME -eq 'RPRATT-SURF') {
+if ( $env:COMPUTERNAME -eq 'RPRATT-SURF3') {
     $varGitRoot = 'C:\Git'
     $varConfigDesignSrc = "C:\Users\rpratt\OneDrive - Novosad Hayes Associates\Documents\Windows Imaging and Configuration Designer (WICD)"
     $varConfigDesginDst = "C:\Users\rpratt\OneDrive - Novosad Hayes Associates\Documents\WICD-Backup\$curTime"
