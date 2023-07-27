@@ -9,3 +9,9 @@ if ($varLocalRemDrives.Count -eq '0') {
     $varDrive = Read-Host "What Drive are we looking for?"
 }
 $varDrive += ':'
+
+$varCurDate = get-date -Format yyyymm
+
+Install-Script -Name Get-WindowsAutoPilotInfo
+
+Get-WindowsAutoPilotInfo $varDrive\$varCurDate\hash.csv
