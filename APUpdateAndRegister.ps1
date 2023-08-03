@@ -1,4 +1,10 @@
+Set-ExecutionPolicy Bypass
+Install-Script Get-WindowsAutoPilotInfo
+Get-WindowsAutoPilotInfo.ps1 -online
 
+    <#Category#>'PSProvideDefaultParameterValue', <#CheckId>$null, Scope='Function',
+    Justification = 'Reason for suppressing'
+)]
 
 <# 
 
