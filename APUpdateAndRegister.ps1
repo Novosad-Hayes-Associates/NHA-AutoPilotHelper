@@ -26,6 +26,16 @@ Write-Host "*******************************************************************"
 
 Start-Sleep -Seconds 120
 
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+Write-Host "***                                        ***" -ForegroundColor Black -BackgroundColor White
+Write-Host "*** We are installing PSWindowsUpdate now. ***" -ForegroundColor Black -BackgroundColor White
+Write-Host "***                                        ***" -ForegroundColor Black -BackgroundColor White
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
+
 # Ok, 
 Install-Module -Name PSWindowsUpdate -Force
 Import-Module PSWindowsUpdate
