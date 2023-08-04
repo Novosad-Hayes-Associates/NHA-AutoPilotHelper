@@ -10,17 +10,17 @@ Install-Script Get-WindowsAutoPilotInfo
 
 Get-WindowsAutoPilotInfo.ps1 -online
 
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
-Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Red
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
-Write-Host "***     Script will continue automatically in five minutes.     ***" -ForegroundColor White -BackgroundColor Red
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***     Script will continue automatically in five minutes.     ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
 
 # Sleep for a bit so that we can see the above message
 
