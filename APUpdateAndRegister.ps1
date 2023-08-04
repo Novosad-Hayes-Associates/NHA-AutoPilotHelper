@@ -1,15 +1,43 @@
+# Make sure that we are in bypass, a lot of this will not work unless we are in bypass
+
 Set-ExecutionPolicy Bypass
+
+# This will grab the AutoPilot Modules so that we can register the unit to intune
+
 Install-Script Get-WindowsAutoPilotInfo
+
+# Using -online to bypass generating any hashes, we are just going to register this.
+
 Get-WindowsAutoPilotInfo.ps1 -online
+
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
+Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Red
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
+Write-Host "***     Script will continue automatically in five minutes.     ***" -ForegroundColor White -BackgroundColor Red
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Red
+
+# Sleep for a bit so that we can see the above message
+
+Start-Sleep -Seconds 300
+
+# Ok, 
 Install-Module -Name PSWindowsUpdate -Force
 Import-Module PSWindowsUpdate
 
-# TO-DO: This should not also pull in previews.
+# Grab the list of updates,
 
-$varCUHold = Get-WUList
+Get-WUList
 
 ### We actually don't have to get fancy to hide updates.
 
 Hide-WindowsUpdate -Title "Preview"
+
+# Install Updates and We are Done!
 
 Install-WindowsUpdate -AcceptAll -AutoReboot
