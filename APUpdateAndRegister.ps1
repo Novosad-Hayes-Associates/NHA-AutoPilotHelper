@@ -1,29 +1,15 @@
 Set-ExecutionPolicy Bypass
 Install-Script Get-WindowsAutoPilotInfo
 Get-WindowsAutoPilotInfo.ps1 -online
+Install-Module -Name PSWindowsUpdate -Force
+Import-Module PSWindowsUpdate
 
-    <#Category#>'PSProvideDefaultParameterValue', <#CheckId>$null, Scope='Function',
-    Justification = 'Reason for suppressing'
-)]
+# TO-DO: This should not also pull in previews.
 
-<# 
+$varCUHold = Get-WUList
 
-$varLocalRemDrives = get-volume | where drivetype -eq removable | foreach driveletter
-if ($varLocalRemDrives.Count -eq '0') {
-    Write-Host "Put a drive in and we can do some work."
-} elseif ($varLocalRemDrives.Count -eq '1') {
-    $varDrive = $varLocalRemDrives
-} else {
-    Write-Output "You have too many drives, which one do you want?"
-    Write-Output $varLocalRemDrives
-    $varDrive = Read-Host "What Drive are we looking for?"
-}
-$varDrive += ':'
+### We actually don't have to get fancy to hide updates.
 
-$varCurDate = get-date -Format yyyymm
+Hide-WindowsUpdate -Title "Preview"
 
-Install-Script -Name Get-WindowsAutoPilotInfo
-
-Get-WindowsAutoPilotInfo $varDrive\$varCurDate\hash.csv
-
-#>
+Install-WindowsUpdate -AcceptAll -AutoReboot
