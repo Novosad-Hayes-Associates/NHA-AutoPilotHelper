@@ -48,6 +48,23 @@ Get-WUList
 
 Hide-WindowsUpdate -Title "Preview"
 
-# Install Updates and We are Done!
+# Actually uh, let's see if this is on Windows 10 or Windows 11
 
-Install-WindowsUpdate -AcceptAll -AutoReboot
+# Detect Version, should spit out a True or False
+$osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
+
+# If True, then let's upgrade to 11. If not, lets just update \o/
+
+if ($osSentinal -eq 'True') {
+    $dir = 'C:\temp\packages'
+    mkdir $dir
+    $webClient = New-Object System.Net.WebClient
+    $url = 'https://go.microsoft.com/fwlink/?linkid=2171764'
+    $file = "$($dir)\Win11Upgrade.exe"
+    $webClient.DownloadFile($url,$file)
+    Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
+} else {
+    # We are already on Windows 11, sooo
+    # Install Updates and We are Done!
+    Install-WindowsUpdate -AcceptAll
+}
