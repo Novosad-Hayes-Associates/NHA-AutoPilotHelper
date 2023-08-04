@@ -56,6 +56,7 @@ $osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
 # If True, then let's upgrade to 11. If not, lets just update \o/
 
 if ($osSentinal -eq 'True') {
+    
     $dir = 'C:\temp\packages'
     mkdir $dir
     $webClient = New-Object System.Net.WebClient
