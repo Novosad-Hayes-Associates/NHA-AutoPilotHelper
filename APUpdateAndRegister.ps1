@@ -16,7 +16,7 @@ Write-Host "*******************************************************************"
 Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
 Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
 Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "***     Script will continue automatically in five minutes.     ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***      Script will continue automatically in two minutes.     ***" -ForegroundColor White -BackgroundColor Green
 Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
 Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
 Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
@@ -24,7 +24,7 @@ Write-Host "*******************************************************************"
 
 # Sleep for a bit so that we can see the above message
 
-Start-Sleep -Seconds 300
+Start-Sleep -Seconds 120
 
 # Ok, 
 Install-Module -Name PSWindowsUpdate -Force
