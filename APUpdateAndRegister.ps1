@@ -53,6 +53,14 @@ if ($osSentinal -eq 'True') {
     $file = "$($dir)\Win11Upgrade.exe"
     $webClient.DownloadFile($url,$file)
     Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
+
+    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "*                                                                                              /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "* /!\ WARNING /!\ DO NOT TURN THIS MACHINE OFF UNTIL WINDOWS UPGRADE ASSISTANT DIRECTS YOU TO! /!\ *" -ForegroundColor Black -BackgroundColor Red
+    WRITE-HOST "* /!\               FAIURE TO DO SO CAN RESULT IN A MACHINE THAT WILL NOT BOOT!                /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "*                                                                                              /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
+
 } else {
     # We are already on Windows 11, sooo
     # Install Updates and We are Done!
