@@ -55,10 +55,10 @@ if ($osSentinal -eq 'True') {
     Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
 
     Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "*                                                                                              /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
     Write-Host "* /!\ WARNING /!\ DO NOT TURN THIS MACHINE OFF UNTIL WINDOWS UPGRADE ASSISTANT DIRECTS YOU TO! /!\ *" -ForegroundColor Black -BackgroundColor Red
     WRITE-HOST "* /!\               FAIURE TO DO SO CAN RESULT IN A MACHINE THAT WILL NOT BOOT!                /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "*                                                                                              /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
     Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
 
 } else {
