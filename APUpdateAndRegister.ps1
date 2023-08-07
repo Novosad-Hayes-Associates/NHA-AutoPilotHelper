@@ -56,7 +56,16 @@ $osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
 # If True, then let's upgrade to 11. If not, lets just update \o/
 
 if ($osSentinal -eq 'True') {
-    
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "*** This system is on Windows 10, we are rolling it to 11. ***" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
+
     $dir = 'C:\temp\packages'
     mkdir $dir
     $webClient = New-Object System.Net.WebClient
