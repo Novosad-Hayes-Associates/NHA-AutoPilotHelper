@@ -36,18 +36,6 @@ Write-Host "**********************************************" -ForegroundColor Bla
 Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
 Write-Host "**********************************************" -ForegroundColor Black -BackgroundColor White
 
-# Ok, 
-Install-Module -Name PSWindowsUpdate -Force
-Import-Module PSWindowsUpdate
-
-# Grab the list of updates,
-
-Get-WUList
-
-### We actually don't have to get fancy to hide updates.
-
-Hide-WindowsUpdate -Title "Preview"
-
 # Actually uh, let's see if this is on Windows 10 or Windows 11
 
 # Detect Version, should spit out a True or False
@@ -56,6 +44,9 @@ $osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
 # If True, then let's upgrade to 11. If not, lets just update \o/
 
 if ($osSentinal -eq 'True') {
+
+    # If they are on Win 10 - we don't need to apply updates, lets roll it to 11.
+
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
@@ -65,7 +56,6 @@ if ($osSentinal -eq 'True') {
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-
     $dir = 'C:\temp\packages'
     mkdir $dir
     $webClient = New-Object System.Net.WebClient
@@ -76,5 +66,19 @@ if ($osSentinal -eq 'True') {
 } else {
     # We are already on Windows 11, sooo
     # Install Updates and We are Done!
+
+    # In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
+    
+    Install-Module -Name PSWindowsUpdate -Force
+    Import-Module PSWindowsUpdate
+    
+    # Grab the list of updates,
+    
+    Get-WUList
+    
+    ### We actually don't have to get fancy to hide updates.
+    
+    Hide-WindowsUpdate -Title "Preview"
+
     Install-WindowsUpdate -AcceptAll
 }
