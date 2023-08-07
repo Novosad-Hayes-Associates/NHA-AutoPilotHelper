@@ -67,8 +67,19 @@ if ($osSentinal -eq 'True') {
     # We are already on Windows 11, sooo
     # Install Updates and We are Done!
 
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "***                                      ***" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "***     This system is on Windows 11.    ***" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "*** Let's update it and be done with it! ***" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "***                                      ***" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+    Write-Host "********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+
     # In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
-    
+
     Install-Module -Name PSWindowsUpdate -Force
     Import-Module PSWindowsUpdate
     
