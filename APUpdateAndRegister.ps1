@@ -2,6 +2,13 @@
 
 Set-ExecutionPolicy Bypass
 
+# This Script REQUIRES internet. If no internet, not script. Lets trap it.
+
+While (!(Test-Connection -computer google.com -count 1 -quiet)) {
+    Write-Host -ForegroundColor Red -NoNewline "Connection down!`n`r" -ForegroundColor White -BackgroundColor Red 
+    Start-Sleep -Seconds 1
+}
+
 # This will grab the AutoPilot Modules so that we can register the unit to intune
 
 Install-Script Get-WindowsAutoPilotInfo
