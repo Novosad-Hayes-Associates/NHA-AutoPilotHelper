@@ -9,30 +9,6 @@ While (!(Test-Connection -computer google.com -count 1 -quiet)) {
     Start-Sleep -Seconds 1
 }
 
-# This will grab the AutoPilot Modules so that we can register the unit to intune
-
-Install-Script Get-WindowsAutoPilotInfo
-
-# Using -online to bypass generating any hashes, we are just going to register this.
-
-Get-WindowsAutoPilotInfo.ps1 -online
-
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "***      Script will continue automatically in two minutes.     ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-
-# Sleep for a bit so that we can see the above message
-
-Start-Sleep -Seconds 120
-
 # Actually uh, let's see if this is on Windows 10 or Windows 11
 
 # Detect Version, should spit out a True or False
@@ -66,9 +42,35 @@ if ($osSentinal -eq 'True') {
     Write-Host "* /!\ WARNING /!\ DO NOT TURN THIS MACHINE OFF UNTIL WINDOWS UPGRADE ASSISTANT DIRECTS YOU TO! /!\ *" -ForegroundColor Black -BackgroundColor Red
     WRITE-HOST "* /!\               FAIURE TO DO SO CAN RESULT IN A MACHINE THAT WILL NOT BOOT!                /!\ *" -ForegroundColor Black -BackgroundColor Red
     Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "* /!\      YOU WILL NEED TO RERUN THIS SCRIPT TO ENROLL THIS LAPTOP INTO AUTOPILOT/INTUNE      /!\ *" -ForegroundColor Black -BackgroundColor Red
+    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
     Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
 
 } else {
+    # This will grab the AutoPilot Modules so that we can register the unit to intune
+
+    Install-Script Get-WindowsAutoPilotInfo
+
+    # Using -online to bypass generating any hashes, we are just going to register this.
+
+    Get-WindowsAutoPilotInfo.ps1 -online
+
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
+    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+    Write-Host "***      Script will continue automatically in two minutes.     ***" -ForegroundColor White -BackgroundColor Green
+    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+
+    # Sleep for a bit so that we can see the above message
+
+    Start-Sleep -Seconds 120
+
     # We are already on Windows 11, sooo
     # Install Updates and We are Done!
     # In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
