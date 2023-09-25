@@ -9,13 +9,6 @@ While (!(Test-Connection -computer google.com -count 1 -quiet)) {
     Start-Sleep -Seconds 1
 }
 
-# Actually uh, let's see if this is on Windows 10 or Windows 11
-
-# Detect Version, should spit out a True or False
-$osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
-
-# If True, then let's upgrade to 11. If not, lets just update \o/
-
 ### OK So any attempt to roll to Windows 11 from here drops us into defaultuser0 - removing the Windows 11 update path for now.
 
 # This will grab the AutoPilot Modules so that we can register the unit to intune
