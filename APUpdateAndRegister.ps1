@@ -16,87 +16,57 @@ $osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
 
 # If True, then let's upgrade to 11. If not, lets just update \o/
 
-if ($osSentinal -eq 'True') {
+### OK So any attempt to roll to Windows 11 from here drops us into defaultuser0 - removing the Windows 11 update path for now.
 
-    # If they are on Win 10 - we don't need to apply updates, lets roll it to 11.
+# This will grab the AutoPilot Modules so that we can register the unit to intune
 
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "*** This system is on Windows 10, we are rolling it to 11. ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    $dir = 'C:\temp\packages'
-    mkdir $dir
-    $webClient = New-Object System.Net.WebClient
-    $url = 'https://go.microsoft.com/fwlink/?linkid=2171764'
-    $file = "$($dir)\Win11Upgrade.exe"
-    $webClient.DownloadFile($url,$file)
-    Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
+Install-Script Get-WindowsAutoPilotInfo
 
-    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\ WARNING /!\ DO NOT TURN THIS MACHINE OFF UNTIL WINDOWS UPGRADE ASSISTANT DIRECTS YOU TO! /!\ *" -ForegroundColor Black -BackgroundColor Red
-    WRITE-HOST "* /!\               FAIURE TO DO SO CAN RESULT IN A MACHINE THAT WILL NOT BOOT!                /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\      YOU WILL NEED TO RERUN THIS SCRIPT TO ENROLL THIS LAPTOP INTO AUTOPILOT/INTUNE      /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
+# Using -online to bypass generating any hashes, we are just going to register this.
 
-} else {
-    # This will grab the AutoPilot Modules so that we can register the unit to intune
+Get-WindowsAutoPilotInfo.ps1 -online
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***      Script will continue automatically in two minutes.     ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
 
-    Install-Script Get-WindowsAutoPilotInfo
+# Sleep for a bit so that we can see the above message
 
-    # Using -online to bypass generating any hashes, we are just going to register this.
+Start-Sleep -Seconds 120
 
-    Get-WindowsAutoPilotInfo.ps1 -online
+# We are already on Windows 11, sooo
+# Install Updates and We are Done!
+# In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
 
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*** This system should be on Intune now. Please check to verify ***" -ForegroundColor White -BackgroundColor Green
-    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-    Write-Host "***      Script will continue automatically in two minutes.     ***" -ForegroundColor White -BackgroundColor Green
-    Write-Host "***                                                             ***" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
-    Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***      This system is on Windows 11.     ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***  Let's update it and be done with it!  ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "*** We are installing PSWindowsUpdate now. ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
 
-    # Sleep for a bit so that we can see the above message
+Install-Module -Name PSWindowsUpdate -Force
 
-    Start-Sleep -Seconds 120
+Import-Module PSWindowsUpdate
 
-    # We are already on Windows 11, sooo
-    # Install Updates and We are Done!
-    # In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
+# Grab the list of updates,
 
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***      This system is on Windows 11.     ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***  Let's update it and be done with it!  ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "*** We are installing PSWindowsUpdate now. ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Get-WUList
 
-    Install-Module -Name PSWindowsUpdate -Force
-    Import-Module PSWindowsUpdate
-    
-    # Grab the list of updates,
-    
-    Get-WUList
-    
-    ### We actually don't have to get fancy to hide updates.
-    
-    Hide-WindowsUpdate -Title "Preview"
+### We actually don't have to get fancy to hide updates.
 
-    Install-WindowsUpdate -AcceptAll
-}
+Hide-WindowsUpdate -Title "Preview"
+
+Install-WindowsUpdate -AcceptAll
