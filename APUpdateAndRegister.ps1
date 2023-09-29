@@ -2,6 +2,15 @@
 
 Set-ExecutionPolicy Bypass
 
+# This Script REQUIRES internet. If no internet, not script. Lets trap it.
+
+While (!(Test-Connection -computer google.com -count 1 -quiet)) {
+    Write-Host -NoNewline "Connection down! Either connect to Ethernet, or go back to OOBE and connect to WiFi, setup will not continue without internet!`n`r" -ForegroundColor White -BackgroundColor Red 
+    Start-Sleep -Seconds 1
+}
+
+### OK So any attempt to roll to Windows 11 from here drops us into defaultuser0 - removing the Windows 11 update path for now.
+
 # This will grab the AutoPilot Modules so that we can register the unit to intune
 
 Install-Script Get-WindowsAutoPilotInfo
@@ -9,7 +18,6 @@ Install-Script Get-WindowsAutoPilotInfo
 # Using -online to bypass generating any hashes, we are just going to register this.
 
 Get-WindowsAutoPilotInfo.ps1 -online
-
 Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
 Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
 Write-Host "*******************************************************************" -ForegroundColor White -BackgroundColor Green
@@ -26,68 +34,32 @@ Write-Host "*******************************************************************"
 
 Start-Sleep -Seconds 120
 
-# Actually uh, let's see if this is on Windows 10 or Windows 11
+# We are already on Windows 11, sooo
+# Install Updates and We are Done!
+# In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
 
-# Detect Version, should spit out a True or False
-$osSentinal = (Get-ComputerInfo | Select-Object -expand OsName) -match 10
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***      This system is on Windows 11.     ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***  Let's update it and be done with it!  ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "*** We are installing PSWindowsUpdate now. ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
+Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
 
-# If True, then let's upgrade to 11. If not, lets just update \o/
+Install-Module -Name PSWindowsUpdate -Force
 
-if ($osSentinal -eq 'True') {
+Import-Module PSWindowsUpdate
 
-    # If they are on Win 10 - we don't need to apply updates, lets roll it to 11.
+# Grab the list of updates,
 
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "*** This system is on Windows 10, we are rolling it to 11. ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "***                                                        ***" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "**************************************************************" -ForegroundColor Black -BackgroundColor Yellow
-    $dir = 'C:\temp\packages'
-    mkdir $dir
-    $webClient = New-Object System.Net.WebClient
-    $url = 'https://go.microsoft.com/fwlink/?linkid=2171764'
-    $file = "$($dir)\Win11Upgrade.exe"
-    $webClient.DownloadFile($url,$file)
-    Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /copylogs $dir'
+Get-WUList
 
-    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\ WARNING /!\ DO NOT TURN THIS MACHINE OFF UNTIL WINDOWS UPGRADE ASSISTANT DIRECTS YOU TO! /!\ *" -ForegroundColor Black -BackgroundColor Red
-    WRITE-HOST "* /!\               FAIURE TO DO SO CAN RESULT IN A MACHINE THAT WILL NOT BOOT!                /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "* /!\                                                                                          /!\ *" -ForegroundColor Black -BackgroundColor Red
-    Write-Host "****************************************************************************************************" -ForegroundColor Black -BackgroundColor Red
+### We actually don't have to get fancy to hide updates.
 
-} else {
-    # We are already on Windows 11, sooo
-    # Install Updates and We are Done!
-    # In fact, we will only install the PSWindowsUpdate if the dumb thing is on Windows 11 - I think the Upgrader will update to latest. If not, we will figure it out.
+Hide-WindowsUpdate -Title "Preview"
 
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***      This system is on Windows 11.     ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***  Let's update it and be done with it!  ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "*** We are installing PSWindowsUpdate now. ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "***                                        ***" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-    Write-Host "**********************************************" -ForegroundColor DarkGray -BackgroundColor Blue
-
-    Install-Module -Name PSWindowsUpdate -Force
-    Import-Module PSWindowsUpdate
-    
-    # Grab the list of updates,
-    
-    Get-WUList
-    
-    ### We actually don't have to get fancy to hide updates.
-    
-    Hide-WindowsUpdate -Title "Preview"
-
-    Install-WindowsUpdate -AcceptAll
-}
+Install-WindowsUpdate -AcceptAll
