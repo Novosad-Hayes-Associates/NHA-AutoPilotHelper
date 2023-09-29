@@ -17,5 +17,3 @@ Technologies used in the project:
 <h2>🛡️ License:</h2>
 
 This project is licensed under the Creative Commons Zero v1.o Universal
-
-<h2>💖Like my work?</h2>
