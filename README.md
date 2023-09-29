@@ -1,4 +1,4 @@
-<h1 align="center" id="title">NHA Auto Piolet Helper</h1>
+<h1 align="center" id="title">NHA Auto Pilot Helper</h1>
 
 <p id="description">A PowerShell script to help get a computer in a place to be onboarded to Auto Pilot</p>
 
@@ -16,4 +16,4 @@ Technologies used in the project:
 
 <h2>🛡️ License:</h2>
 
-This project is licensed under the Creative Commons Zero v1.o Universal
+This project is licensed under the Creative Commons Zero v1.0 Universal
